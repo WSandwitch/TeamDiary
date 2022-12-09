@@ -53,16 +53,15 @@ class Main {
             var mainView:Component = ComponentBuilder.fromFile("assets/main-view.xml");
             _app.addComponent(mainView);
             _daymemos = cast(mainView.findComponent("daymemos"), ListView);
-			_daymemos.addComponent(new NoteComponent());
 			var calendar:CalendarView = mainView.findComponent("calendar1");
 			calendar.onChange = function(e:UIEvent){
-				var date:Date = cast(e.target, CalendarView).selectedDate;
+				var date:Date = cast(e.target, Calendar).selectedDate;
 				reloadDayMemos(date);
 				trace(date);
 				delay(hideScroll.bind(mainView), 100);
 				delay(hideScroll.bind(mainView), 300);
 			}
-			for (cc in calendar.findComponent(Calendar).findComponents(Button)){
+			for (cc in calendar.findComponents(Button)){
 				//trace(cc.styleNames);
 				cc.styleNames += " calendar-button";
 			}
