@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <meta title="Inventory" package="wsstudio.inventory" version="1.0.0" company="wsstudio" />
+    <app main="Main" file="Main" path="build/openfl" />
+
+    <window background="#FFFFFF" fps="60" />
+    <window width="399" height="700" vsync="true" antialiasing="4" if="desktop" />
+	<window width="399" height="700" if="neko" />
+    <window width="0" height="0" if="html5" />
+    <window width="0" height="0" orientation="portrait" vsync="true" antialiasing="4" if="mobile" />
+
+    <!-- classpath, haxe libs -->
+    <classpath name="src" />
+    <assets path="assets" />
+
+	
+    <haxelib name="openfl" /> <!-- 9.2.0 -->
+    <haxelib name="actuate" />
+
+    <haxelib name="haxeui-core" /> <!-- 1.5.0 source="https://github.com/haxeui/haxeui-core" /> -->
+    <haxelib name="haxeui-openfl" /> <!-- 1.5.0 source="https://github.com/haxeui/haxeui-openfl" /> -->
+    <haxelib name="svg" />
+	
+	<section if="debug">
+		<architecture name="x86" if="android" />
+	</section>
+</project>

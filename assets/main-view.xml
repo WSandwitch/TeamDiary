@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	
+<vbox width="100%" height="100%">
+	<style>
+		* {	
+			font-name: 'assets/fonts/Jost-Regular.ttf'; 
+			font-size: 16;
+		}
+		.dialog-close-button {resource: "assets/icons/x-square-small.svg"; }
+		.calendar-button {width:47; height:35; }
+		.calendar-day {}
+	/*	*{border: 1px solid #ababab; } */ 
+	</style>
+    <grid width="100%" height="100%" id="grid1" columns="1" style="padding: 5px;">
+        <box  width="100%"> <!--style="background-color: red;border:1px solid red;background-opacity: .5" > -->
+		</box>        
+        <box width="100%" height="100%"><!-- style="background-color: green;border:1px solid green;background-opacity: .5"> -->
+			<scrollview id="scrollview1" scrollMode="inertial" width="100%" height="100%" contentWidth="100%" autoHideScrolls="true">
+				<vbox width="100%">
+					<spacer />
+					<calendarview id="calendar1" width="100%" style="padding-left: 16px; border: 0px;" />
+					<listview id="daymemos" width="100%">
+						<item-renderer width="100%" style="border-bottom:1px solid #ababab; ">
+							<vbox width="100%">	
+								<hbox width="100%">	
+									<label id="date" width="100%" style="font-size: 12;" />
+									<label id="created_at" style="font-size: 12;" />
+								</hbox>
+								<label id="text_short" horizontalAlign="left" style="font-size: 19;" />
+							</vbox>
+						</item-renderer>
+						<data>
+				
+						</data>
+					</listview>
+				</vbox>
+			</scrollview>
+		</box>
+        <box width="100%" style="border:1px solid black;background-opacity: .5">
+			<hbox width="100%" style="horizontal-spacing:1;">
+				<button id="exitb" width="64" height="64" style="icon: assets/icons/log-out.svg;" />
+				<button id="filterb" width="64" height="64" style="icon: assets/icons/filter.svg;" />
+				<button id="sortb" width="64" height="64" style="icon: assets/icons/sort.svg;" />
+				<button id="noneb" width="64" height="64" style="icon: assets/icons/none.svg;" />
+				<button id="settingsb" width="64" height="64" style="icon: assets/icons/settings.svg;" />
+				<button id="addnewbutton" width="64" height="64" style="icon: assets/icons/plus-circle.svg;" />
+			</hbox>
+		</box>
+    </grid>
+</vbox>
