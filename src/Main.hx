@@ -30,6 +30,7 @@ import dialogs.*;
 class Main {
 	static var _daymemos:ListView;
 	static var _app:HaxeUIApp;
+	static var _currentDate:Date = new Date(Date.now().getFullYear(), Date.now().getMonth(), Date.now().getDate(), 0, 0, 0);
 	
 	static var sort:String = "updated_at";
 	static var sortdir:String = "DESC";
@@ -53,14 +54,13 @@ class Main {
             var mainView:Component = ComponentBuilder.fromFile("assets/main-view.xml");
             _app.addComponent(mainView);
             _daymemos = cast(mainView.findComponent("daymemos"), ListView);
-			var calendar:CalendarView = mainView.findComponent("calendar1");
+			var calendar:Calendar= mainView.findComponent("calendar1");
 			calendar.onChange = function(e:UIEvent){
-				var date:Date = cast(e.target, Calendar).selectedDate;
-				reloadDayMemos(date);
-				trace(date);
-				delay(hideScroll.bind(mainView), 100);
-				delay(hideScroll.bind(mainView), 300);
-			}
+				_currentDate = cast(e.target, Calendar).selectedDate;
+				reloadDayMemos();
+//				delay(hideScroll.bind(mainView), 100);
+//				delay(hideScroll.bind(mainView), 300);
+			};
 			for (cc in calendar.findComponents(Button)){
 				//trace(cc.styleNames);
 				cc.styleNames += " calendar-button";
@@ -92,10 +92,10 @@ class Main {
 				doExit();
 			};
 			var now = Date.now();
-			reloadDayMemos(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0));
 			_app.start();
-			delay(hideScroll.bind(mainView), 100);
-			delay(hideScroll.bind(mainView), 300);
+			reloadDayMemos();//new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0));
+//			delay(hideScroll.bind(mainView), 100);
+//			delay(hideScroll.bind(mainView), 300);
 			
 			//
 //			sync.updateCallback = reloadItems;
@@ -127,12 +127,12 @@ class Main {
 		}
 	}
 	
-	static function reloadDayMemos(d:Date){
-		var date = DBManager.timeFromDate(d);
+	static function reloadDayMemos(){
+		var date = DBManager.timeFromDate(_currentDate);
 		_daymemos.dataSource.clear();
 		trace(date);
 		for (e in NoteValue.all(
-				'where date < ${date+24*60*60} and date >= ${date}'
+			'where date < ${date+24*60*60} and date >= ${date}'
 		)){
 			_daymemos.dataSource.add(e);
 		}
@@ -175,6 +175,8 @@ class Main {
 	}
 }
 
+
+/*
 @:xml('
 	<vbox width="100%">	
 		<hbox width="100%">	
@@ -190,3 +192,4 @@ class NoteComponent extends Component{
 		cast(findComponent("date"), Label).text = "test texts";
     }
 }
+*/

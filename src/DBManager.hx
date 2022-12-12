@@ -27,7 +27,7 @@ class DBManager {
 		return Date.fromTime(time*1000.0);
 	}
 	public static function timeFromDate(date: Date):Float{
-		var str = '${date.getTime()/1000}';
+		var str:String = '${date.getTime()/1000}';
 		return Std.parseFloat(str.split(".")[0]);
 	}
 }
