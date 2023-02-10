@@ -3,9 +3,11 @@ package ;
 import haxe.Timer.delay;
 import haxe.ui.ComponentBuilder;
 import haxe.ui.components.Calendar;
+import haxe.ui.components.Stepper;
 import haxe.ui.components.VerticalScroll;
 import haxe.ui.containers.CalendarView;
 import haxe.ui.containers.ScrollView;
+import haxe.ui.events.MouseEvent;
 import haxe.ui.events.UIEvent;
 //import network.Sync;
 import openfl.events.Event;
@@ -54,16 +56,41 @@ class Main {
             var mainView:Component = ComponentBuilder.fromFile("assets/main-view.xml");
             _app.addComponent(mainView);
             _daymemos = cast(mainView.findComponent("daymemos"), ListView);
-			var calendar:Calendar= mainView.findComponent("calendar1");
-			calendar.onChange = function(e:UIEvent){
-				_currentDate = cast(e.target, Calendar).selectedDate;
+			var calendarv:CalendarView = cast mainView.findComponent("calendar1");
+			var calendar:Calendar= cast calendarv.findComponent(Calendar);
+			var mchangef = function(e:Dynamic){
+				var calendarv:CalendarView = e.target;
+				var calendar:Calendar= cast calendarv.findComponent(Calendar);
+				_currentDate = calendar.date; //selectedDate
 				reloadDayMemos();
-//				delay(hideScroll.bind(mainView), 100);
-//				delay(hideScroll.bind(mainView), 300);
-			};
+
+				for (cc in calendar.findComponents(Button)){
+					cc.removeClass("day-border");
+					if (Std.parseInt(cc.text) == Date.now().getDate()){
+						if (cc.hasClass("calendar-day")){
+							if (_currentDate.getMonth() == Date.now().getMonth() && _currentDate.getFullYear() == Date.now().getFullYear()){	
+								cc.addClass("day-border");
+							}
+						}
+					}
+				}
+
+/*				if (_currentDate.getMonth() == Date.now().getMonth()){
+					var list = curr_day.styleNames.split(" ");
+					if (list.indexOf("day-border") < 0)
+						curr_day.styleNames += " day-border";
+				}else{
+					var list = curr_day.styleNames.split(" ");
+					if (list.remove("day-border"))
+						curr_day.styleNames = list.join(" ");					
+				}
+*/			};
+			calendarv.onChange = mchangef;
+			cast(calendarv.findComponent("prev-month"), Button).onClick = function(e:Dynamic){ mchangef({target:calendarv}); };
+			cast(calendarv.findComponent("next-month"), Button).onClick = function(e:Dynamic){ mchangef({target:calendarv}); };
+			cast(calendarv.findComponent("current-year"), Stepper).onChange = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),1); };
 			for (cc in calendar.findComponents(Button)){
-				//trace(cc.styleNames);
-				cc.styleNames += " calendar-button";
+				cc.addClass("calendar-button");
 			}
 			cast(mainView.findComponent("addnewbutton"), Button).onClick = function(e:Dynamic){
 //				var dialog = new EditDialog(new Item({}));
@@ -91,9 +118,9 @@ class Main {
 */			cast(mainView.findComponent("exitb"), Button).onClick = function(e:Dynamic){
 				doExit();
 			};
-			var now = Date.now();
+			//var now = Date.now();
 			_app.start();
-			reloadDayMemos();//new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0));
+			mchangef({target:calendarv});//new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0));
 //			delay(hideScroll.bind(mainView), 100);
 //			delay(hideScroll.bind(mainView), 300);
 			
@@ -128,11 +155,14 @@ class Main {
 	}
 	
 	static function reloadDayMemos(){
-		var date = DBManager.timeFromDate(_currentDate);
+//		var date = DBManager.timeFromDate(_currentDate);
+		var date = DBManager.timeFromDate(new Date(_currentDate.getFullYear(), _currentDate.getMonth(), 0, 0, 0, 0));
+		var date2 = DBManager.timeFromDate(new Date(_currentDate.getFullYear(), _currentDate.getMonth()+1, 0, 0, 0, 0));
 		_daymemos.dataSource.clear();
-		trace(date);
+//		trace(date);
 		for (e in NoteValue.all(
-			'where date < ${date+24*60*60} and date >= ${date}'
+			'where date < ${date2} and date >= ${date}'
+//			'where date < ${date+24*60*60} and date >= ${date}'
 		)){
 			_daymemos.dataSource.add(e);
 		}

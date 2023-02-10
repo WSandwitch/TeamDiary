@@ -14,7 +14,7 @@
     <assets path="assets" />
 
 	
-    <haxelib name="openfl" /> <!-- 9.2.0 -->
+    <haxelib name="openfl" /> <!-- 9.2.0 , lime 8.0.0-->
     <haxelib name="actuate" />
 
     <haxelib name="haxeui-core" /> <!-- 1.5.0 source="https://github.com/haxeui/haxeui-core" /> -->
