@@ -63,7 +63,6 @@ class Main {
 				var calendar:Calendar= cast calendarv.findComponent(Calendar);
 				_currentDate = calendar.date; //selectedDate
 				reloadDayMemos();
-
 				for (cc in calendar.findComponents(Button)){
 					cc.removeClass("day-border");
 					if (Std.parseInt(cc.text) == Date.now().getDate()){
@@ -89,13 +88,19 @@ class Main {
 			cast(calendarv.findComponent("prev-month"), Button).onClick = function(e:Dynamic){ mchangef({target:calendarv}); };
 			cast(calendarv.findComponent("next-month"), Button).onClick = function(e:Dynamic){ mchangef({target:calendarv}); };
 			cast(calendarv.findComponent("current-year"), Stepper).onChange = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),1); };
+			_daymemos.onChange = function(e:Dynamic){
+				var l:ListView = cast e.target;
+				var dialog = new EditDialog(l.selectedItem);
+				dialog.saveCallback = function(i:Note){mchangef({target:calendarv}); };
+				dialog.showDialog();
+			};
 			for (cc in calendar.findComponents(Button)){
 				cc.addClass("calendar-button");
 			}
 			cast(mainView.findComponent("addnewbutton"), Button).onClick = function(e:Dynamic){
-//				var dialog = new EditDialog(new Item({}));
-//				dialog.saveCallback = function(i:Item){reloadItems(); };
-//				dialog.showDialog();
+				var dialog = new EditDialog(new Note({}));
+				dialog.saveCallback = function(i:Note){mchangef({target:calendarv});};
+				dialog.showDialog();
 			};
 			
 /*			
@@ -129,9 +134,12 @@ class Main {
 //			delay(function(){sync.checkUpdates(); }, 200);
 			//testing stuff
 		#if debug
-//			new NoteValue({text: "sdadasda"}).save();
-//			new NoteValue({text: "sdadasdaqwqa"}).save();
-//			new NoteValue({text: "sdadasdaweq	e	\nqewQEQE"}).save();
+//			var n = new Note({}).save();
+//			n.value = new NoteValue({text: "sdadasda"});
+//			n.value = new NoteValue({text: "sdadasdaqwqa"});
+//			n.value = new NoteValue({text: "sdadasdaweq	e	\nqewQEQE"});
+//			trace(n);
+//			trace(n.text);
 		#end
 		});
 		
@@ -153,14 +161,13 @@ class Main {
 			//trace(e);
 		}
 	}
-	
+
 	static function reloadDayMemos(){
 //		var date = DBManager.timeFromDate(_currentDate);
-		var date = DBManager.timeFromDate(new Date(_currentDate.getFullYear(), _currentDate.getMonth(), 0, 0, 0, 0));
-		var date2 = DBManager.timeFromDate(new Date(_currentDate.getFullYear(), _currentDate.getMonth()+1, 0, 0, 0, 0));
+		var date = DBManager.timeFromDate(new Date(_currentDate.getFullYear(), _currentDate.getMonth(), _currentDate.getDate(), 0, 0, 0));
+		var date2 = DBManager.timeFromDate(new Date(_currentDate.getFullYear(), _currentDate.getMonth(), _currentDate.getDate()+1, 0, 0, 0));
 		_daymemos.dataSource.clear();
-//		trace(date);
-		for (e in NoteValue.all(
+		for (e in Note.all(
 			'where date < ${date2} and date >= ${date}'
 //			'where date < ${date+24*60*60} and date >= ${date}'
 		)){

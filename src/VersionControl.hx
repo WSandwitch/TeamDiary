@@ -14,6 +14,7 @@ class VersionControl {
 	static var _migrations:Array<Array<String>> = [
 		[
 			'CREATE TABLE IF NOT EXISTS ${NoteValue.tname} (id INTEGER PRIMARY KEY, note_id integer, text TEXT, date integer, created_at integer, syncronized integer);',
+			'CREATE TABLE IF NOT EXISTS ${Note.tname} (id INTEGER PRIMARY KEY, date integer, created_at integer, syncronized integer);',
 		],
 	];
 	
@@ -30,6 +31,7 @@ class VersionControl {
 			dbm.context.request('BEGIN TRANSACTION;');
 				for (m in _migrations[i]) {
 					dbm.context.request(m);
+					trace(m);
 				}
 			dbm.context.request('COMMIT;');
 			add_version();

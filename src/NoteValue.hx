@@ -12,15 +12,15 @@ class NoteValue implements Syncable {
 	public var id:Null<Int>;
 	public var note_id:Int;
 	public var text:String = "";
-	public var date:Date = Date.now();
+//	public var date:Date = Date.now();
 	public var created_at:Date = Date.now();
 	public var syncronized:Bool = false;
 	
-	public var note(get, set):Dynamic;
-	public function get_note():Dynamic{
-		return ""; //Note.get(...
+	public var note(get, set):Note;
+	public function get_note():Note{
+		return Note.get(note_id);
 	}
-	public function set_note(o:Dynamic):Dynamic{
+	public function set_note(o:Note):Note{
 		note_id = o.id;
 		return o;
 	}
@@ -36,8 +36,8 @@ class NoteValue implements Syncable {
 		note_id = data.note_id;
 		if (data.text != null)
 			text = data.text;
-		if (data.date != null)
-			date = DBManager.dateFromTime(data.date);
+//		if (data.date != null)
+//			date = DBManager.dateFromTime(data.date);
 		if (data.created_at != null)
 			created_at = DBManager.dateFromTime(data.created_at);
 		if (data.syncronized != null)
@@ -49,8 +49,8 @@ class NoteValue implements Syncable {
 			created_at = Date.now();
 		if (sync) 
 			syncronized = false;
-		var keys:Array<Dynamic> = ['text', 'date', 'created_at', 'syncronized'];
-		var vals:Array<Dynamic> = ['"${text}"', DBManager.timeFromDate(date), DBManager.timeFromDate(created_at), syncronized?1:0];
+		var keys:Array<Dynamic> = ['text', 'note_id', 'created_at', 'syncronized'];
+		var vals:Array<Dynamic> = ['"${text}"', note_id, DBManager.timeFromDate(created_at), syncronized?1:0];
 		if (id!=null){
 			keys.push('id');
 			vals.push(id);
@@ -75,7 +75,7 @@ class NoteValue implements Syncable {
 		return {
 			id: id, 
 			text: text, 
-			date: DBManager.timeFromDate(date), 
+//			date: DBManager.timeFromDate(date), 
 			created_at:DBManager.timeFromDate(created_at),
 			note_id: note_id,
 		};
