@@ -14,14 +14,14 @@ class Note implements Syncable {
 	public var created_at:Date = Date.now();
 	public var syncronized:Bool = false;
 	
-	public var values(get, null):Array<NoteValue>;
-	public function get_values():Array<NoteValue>{
-		return []; //Note.get(...
+	public var values(get, null):List<NoteValue>;
+	public function get_values():List<NoteValue>{
+		return NoteValue.all('where note_id=${id} order by id asc'); //Note.get(...
 	}
 	
 	public var value(get, set):Null<NoteValue>;
 	public function get_value():Null<NoteValue>{
-		return NoteValue.all('where note_id=${id} order by id desc limit 1').last();
+		return values.last();
 	}
 	public function set_value(n:Null<NoteValue>):Null<NoteValue>{
 		trace(n);

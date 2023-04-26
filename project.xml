@@ -20,8 +20,10 @@
     <haxelib name="haxeui-core" /> <!-- 1.5.0 source="https://github.com/haxeui/haxeui-core" /> -->
     <haxelib name="haxeui-openfl" /> <!-- 1.5.0 source="https://github.com/haxeui/haxeui-openfl" /> -->
     <haxelib name="svg" />
+    <haxelib name="difmatchpatch" /> <!-- source="https://github.com/WSandwitch/diffmatchpatch-haxe" />-->
 	
 	<section if="debug">
 		<architecture name="x86" if="android" />
 	</section>
+	
 </project>

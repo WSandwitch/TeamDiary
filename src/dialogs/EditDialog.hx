@@ -18,7 +18,7 @@ import haxe.ui.events.UIEvent;
 @:build(haxe.ui.macros.ComponentMacros.build("assets/edit-dialog.xml"))
 class EditDialog extends Dialog {
 	var _item:Note;
-//	var _removeButton:DialogButton = "Remove";
+	public static var HISTORY:String = "History";
 	
 	public var saveCallback:Note->Void;
 	public var removeCallback:Int->Void;
@@ -27,7 +27,7 @@ class EditDialog extends Dialog {
         super();
 		_item = i;
         title = "Edit";
-        buttons = DialogButton.SAVE | DialogButton.CANCEL;// | "Custom Button" | DialogButton.APPLY;
+        buttons = HISTORY | (DialogButton.SAVE | DialogButton.CANCEL);// | "Custom Button" | DialogButton.APPLY;
 //		if (i.id != null)
 //			buttons = _removeButton | buttons;
 
@@ -52,10 +52,9 @@ class EditDialog extends Dialog {
 			if (e.button == DialogButton.CANCEL){
 				saveCallback(i);
 			}
-//			if (e.button == _removeButton){
-//				i.remove();
-//				removeCallback(i.id);
-//			}
+			if (e.button == HISTORY){
+				new NoteHistoryDialog(_item).showDialog();
+			}		
 		}
     }
 }
