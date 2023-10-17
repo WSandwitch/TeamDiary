@@ -21,7 +21,19 @@
 			border:1px solid gray;
 		}
 		
-	/*	*{border: 1px solid #ababab; } */ 
+		.text_removed {
+			background-color:#e65d42;
+			text-decoration:line-through;
+		}
+		.text_added {
+			background-color:#ade642;
+		}
+		.diff_text{
+			horizontal-spacing: 0;
+		}
+		
+/*		*{border: 1px solid #ababab; }  
+*/
 	</style>
     <grid width="100%" height="100%" id="grid1" columns="1" style="padding: 5px;">
         <box  width="100%"> <!--style="background-color: red;border:1px solid red;background-opacity: .5" > -->

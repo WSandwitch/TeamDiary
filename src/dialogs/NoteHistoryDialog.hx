@@ -58,6 +58,7 @@ class NoteHistoryDialog extends Dialog {
 			hb1.addComponent(l);
 			l.text = vh.created_at.toString();
 			var hb2:HBox = new HBox();
+			hb2.addClass("diff_text");
 			hb1.addComponent(hb2);
 			//var pos = values.length - 1 - vi;
 			if (pos != values.length - 1) {
@@ -66,13 +67,21 @@ class NoteHistoryDialog extends Dialog {
 				for (a in diffs){
 					l2 = new Label();
 					l2.text = a[1];
-					vb1.addComponent(l2);
+					l2.addClass("diff_text");
+					if (a[0]<0){
+						l2.addClass("text_removed");
+					}else if (a[0]>0){
+						l2.addClass("text_added");						
+					}
+					hb2.addComponent(l2);
+					trace(text);
 				}
+				
 //				items.dataSource.add({date: vh.created_at, box: l});
 			}else{
 				var l2:Label = new Label();
 				l2.text = vh.text;
-				vb1.addComponent(l2);
+				hb2.addComponent(l2);
 			}
 		}
 		onDialogClosed = function(e:DialogEvent) {
