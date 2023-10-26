@@ -24,9 +24,11 @@
 		.text_removed {
 			background-color:#e65d42;
 			text-decoration:line-through;
+			padding: 0;
 		}
 		.text_added {
 			background-color:#ade642;
+			padding: 0;
 		}
 		.diff_text{
 			horizontal-spacing: 0;

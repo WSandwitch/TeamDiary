@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-    <meta title="Inventory" package="wsstudio.inventory" version="1.0.0" company="wsstudio" />
-    <app main="Main" file="Main" path="build/openfl" />
+    <meta title="TeamDiary" package="wsstudio.teamdiary" version="1.0.0" company="wsstudio" />
+    <app main="Main" file="Main" path="build" />
 
     <window background="#FFFFFF" fps="60" />
     <window width="399" height="700" vsync="true" antialiasing="4" if="desktop" />

@@ -67,7 +67,6 @@ class NoteHistoryDialog extends Dialog {
 				for (a in diffs){
 					l2 = new Label();
 					l2.text = a[1];
-					l2.addClass("diff_text");
 					if (a[0]<0){
 						l2.addClass("text_removed");
 					}else if (a[0]>0){
