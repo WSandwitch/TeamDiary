@@ -98,7 +98,18 @@ class Main {
 				cc.addClass("calendar-button");
 			}
 			cast(mainView.findComponent("addnewbutton"), Button).onClick = function(e:Dynamic){
-				var dialog = new EditDialog(new Note({}));
+				var date:Date=Date.now();
+				if (
+					date.getMonth() != _currentDate.getMonth() ||
+					date.getDate() != _currentDate.getDate() ||
+					date.getFullYear() != _currentDate.getFullYear()
+				){
+					date = new Date(_currentDate.getFullYear(), _currentDate.getMonth(), _currentDate.getDate(), 12, 0, 0);
+				}
+				
+				var dialog = new EditDialog(new Note({
+					date: DBManager.timeFromDate(date)
+				}));
 				dialog.saveCallback = function(i:Note){mchangef({target:calendarv});};
 				dialog.showDialog();
 			};

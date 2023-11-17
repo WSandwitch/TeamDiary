@@ -4,7 +4,7 @@
 	<style>
 		* {	
 			font-name: 'assets/fonts/Jost-Regular.ttf'; 
-			font-size: 16;
+			font-size: 17pt;
 		}
 		.dialog-close-button {resource: "assets/icons/x-square-small.svg"; }
 		.calendar-button {width:47; height:35; }
