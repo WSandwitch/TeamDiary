@@ -72,6 +72,16 @@ class Main {
 							}
 						}
 					}
+					var date = DBManager.timeFromDate(new Date(_currentDate.getFullYear(), _currentDate.getMonth(), Std.parseInt(cc.text), 0, 0, 0));
+					var date2 = DBManager.timeFromDate(new Date(_currentDate.getFullYear(), _currentDate.getMonth(), Std.parseInt(cc.text)+1, 0, 0, 0));
+					for (l in cc.findComponents(Label)){
+						l.removeClass("day-notes");
+						if (cc.hasClass("calendar-day")){
+							if (Note.count('where date < ${date2} and date >= ${date}') > 0){
+								l.addClass("day-notes");
+							}
+						}
+					}
 				}
 
 /*				if (_currentDate.getMonth() == Date.now().getMonth()){
@@ -84,9 +94,10 @@ class Main {
 						curr_day.styleNames = list.join(" ");					
 				}
 */			};
+
 			calendarv.onChange = mchangef;
-			cast(calendarv.findComponent("prev-month"), Button).onClick = function(e:Dynamic){ mchangef({target:calendarv}); };
-			cast(calendarv.findComponent("next-month"), Button).onClick = function(e:Dynamic){ mchangef({target:calendarv}); };
+			cast(calendarv.findComponent("prev-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),1); };
+			cast(calendarv.findComponent("next-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),1); };
 			cast(calendarv.findComponent("current-year"), Stepper).onChange = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),1); };
 			_daymemos.onChange = function(e:Dynamic){
 				var l:ListView = cast e.target;

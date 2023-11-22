@@ -102,13 +102,17 @@ class Note implements Syncable {
 
 	//===
 	public static function get(id:Int):Note{
-		return new Note(request('SELECT * FROM ${tname} WHERE id = ${id} LIMIT 1').results().first());
+		return new Note(request('SELECT * FROM ${tname} WHERE id = ${id} LIMIT 1;').results().first());
 	}
 	
 	public static function all(ext:String = "", fields:String = "*"):List<Note>{
 		return request('SELECT DISTINCT ${fields} FROM ${tname} ${ext};').results().map(function(o:Dynamic){
 			return new Note(o);
 		});
+	}
+	
+	public static function count(ext:String = ""):Int{
+		return request('SELECT DISTINCT count(id) as osize FROM ${tname} ${ext};').results().last().osize;
 	}
 	
 }

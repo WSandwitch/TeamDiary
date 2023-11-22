@@ -5,6 +5,7 @@
 		* {	
 			font-name: 'assets/fonts/Jost-Regular.ttf'; 
 			font-size: 17pt;
+			color: black;
 		}
 		.dialog-close-button {resource: "assets/icons/x-square-small.svg"; }
 		.calendar-button {width:47; height:35; }
@@ -15,10 +16,14 @@
 		
 		.calendar .calendar-day-selected {
 			border: none;
-			color: inherit;
+			backgroud-color: white;
 		}
 		.day-border {
 			border:1px solid gray;
+		}
+		.day-notes {
+			border:1px solid gray;
+			border-radius: 10px;
 		}
 		
 		.text_removed {
@@ -35,7 +40,7 @@
 		}
 		
 /*		*{border: 1px solid #ababab; }  
-*/
+/**/
 	</style>
     <grid width="100%" height="100%" id="grid1" columns="1" style="padding: 5px;">
         <box  width="100%"> <!--style="background-color: red;border:1px solid red;background-opacity: .5" > -->
