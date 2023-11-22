@@ -96,9 +96,9 @@ class Main {
 */			};
 
 			calendarv.onChange = mchangef;
-			cast(calendarv.findComponent("prev-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),1); };
-			cast(calendarv.findComponent("next-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),1); };
-			cast(calendarv.findComponent("current-year"), Stepper).onChange = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),1); };
+			cast(calendarv.findComponent("prev-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),150); };
+			cast(calendarv.findComponent("next-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),150); };
+			cast(calendarv.findComponent("current-year"), Stepper).onChange = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),150); };
 			_daymemos.onChange = function(e:Dynamic){
 				var l:ListView = cast e.target;
 				var dialog = new EditDialog(l.selectedItem);
@@ -163,6 +163,7 @@ class Main {
 //			trace(n);
 //			trace(n.text);
 		#end
+		trace(Group.get(1));
 		});
 		
 		

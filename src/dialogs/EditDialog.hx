@@ -35,6 +35,15 @@ class EditDialog extends Dialog {
 		cast(findComponent("etext"), TextArea).text = i.text;
 		findComponent("ehour").value = i.date.getHours();
 		findComponent("eminute").value = i.date.getMinutes();
+		cast(findComponent("groupsb"), Button).onClick = function (e:Dynamic){
+			var ud = new GroupsDialog(i);
+			ud.saveCallback = function () {
+				updateGroup(i);
+			};
+			ud.showDialog();
+		};
+		updateGroup(i);
+//		trace(findComponent("group"));
 //		cast(findComponent("groupsb"), Button).onClick = function (e:Dynamic){
 //			var gd = new GroupsDialog(i);
 //			gd.showDialog();
@@ -57,4 +66,8 @@ class EditDialog extends Dialog {
 			}		
 		}
     }
+	
+	function updateGroup(i:Note){
+		cast(findComponent("egroup"), Label).text = i.group.name;
+	}
 }

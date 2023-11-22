@@ -15,7 +15,11 @@ class VersionControl {
 		[
 			'CREATE TABLE IF NOT EXISTS ${NoteValue.tname} (id INTEGER PRIMARY KEY, note_id integer, text TEXT, date integer, created_at integer, syncronized integer);',
 			'CREATE TABLE IF NOT EXISTS ${Note.tname} (id INTEGER PRIMARY KEY, date integer, created_at integer, syncronized integer);',
-		],
+		], [
+			'CREATE TABLE IF NOT EXISTS ${Group.tname} (id INTEGER PRIMARY KEY, name TEXT, created_at integer, syncronized integer);',
+			'INSERT INTO ${Group.tname}(id,name) VALUES (1,\'default\');',
+			'ALTER TABLE ${Note.tname} ADD COLUMN group_id integer DEFAULT 1;',
+		]
 	];
 	
 	function add_version(){
@@ -31,7 +35,6 @@ class VersionControl {
 			dbm.context.request('BEGIN TRANSACTION;');
 				for (m in _migrations[i]) {
 					dbm.context.request(m);
-					trace(m);
 				}
 			dbm.context.request('COMMIT;');
 			add_version();

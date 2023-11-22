@@ -8,6 +8,11 @@
 			<number-stepper id="ehour" pos="12" step="1" min="0" max="24" />
 			<number-stepper id ="eminute" pos="0" step="1" min="0" max="59" />
 		</hbox>
+		<hbox width="100%">
+			<label text="Group:" verticalAlign="center"/>
+			<label id="egroup" verticalAlign="center" width="100%" />
+			<button id="groupsb" text="Select group" > </button>
+		</hbox>
 		
         <hbox width="100%" height="100%">
 			<textarea id="etext" width="100%" height="100%" />

@@ -10,6 +10,7 @@ class Note implements Syncable {
 	public var needremove:Bool = false;
 	
 	public var id:Null<Int>;
+	public var group_id:Int = 1;
 	public var date:Date = Date.now();
 	public var created_at:Date = Date.now();
 	public var syncronized:Bool = false;
@@ -32,6 +33,15 @@ class Note implements Syncable {
 		return n;
 	}
 	
+	public var group(get, set):Null<Group>;
+	public function get_group():Null<Group>{
+		return Group.get(group_id);
+	}
+	public function set_group(g:Null<Group>):Null<Group>{
+		if (g != null)
+			group_id = g.id;
+		return g;
+	}
 	
 	public var text(get, set):String;
 	public function get_text():String{
@@ -53,7 +63,8 @@ class Note implements Syncable {
 	
 	public function new(data:Dynamic) {
 		id = data.id;
-//		node_id = data.node_id;
+		if (data.group_id != null)
+			group_id = data.group_id;
 		if (data.date != null)
 			date = DBManager.dateFromTime(data.date);
 		if (data.created_at != null)
@@ -67,8 +78,8 @@ class Note implements Syncable {
 			created_at = Date.now();
 		if (sync) 
 			syncronized = false;
-		var keys:Array<Dynamic> = [ 'date', 'created_at', 'syncronized'];
-		var vals:Array<Dynamic> = [ DBManager.timeFromDate(date), DBManager.timeFromDate(created_at), syncronized?1:0];
+		var keys:Array<Dynamic> = [ 'date', 'created_at', 'syncronized', 'group_id'];
+		var vals:Array<Dynamic> = [ DBManager.timeFromDate(date), DBManager.timeFromDate(created_at), syncronized?1:0, group_id];
 		if (id!=null){
 			keys.push('id');
 			vals.push(id);
@@ -92,6 +103,7 @@ class Note implements Syncable {
 	public function to_json():Dynamic{
 		return {
 			id: id, 
+			group_id: group_id,
 			date: DBManager.timeFromDate(date), 
 			created_at:DBManager.timeFromDate(created_at)
 		};

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<dialog width="60%">
+	<vbox width="100%">
+		<hbox width="100%" >
+			<textfield id="addname" width="100%" />
+			<button id="addb" text="Add" />
+		</hbox>
+		<listview id="groupsdd" scrollMode="inertial" width="100%" style="max-height:540;">
+			<item-renderer width="100%">
+				<hbox width="100%">
+					<label id="name" horizontalAlign="center" width="100%"/>
+				</hbox>
+			</item-renderer>
+			<data>
+
+			</data>
+		</listview>
+		<hbox width="100%" id="editbox">
+			<textfield id="editname" width="100%" value="" />
+			<button id="editb" text="Update" />
+		</hbox>
+		<button id="remb" text="Remove selected" />
+	</vbox>
+</dialog>

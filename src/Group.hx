@@ -31,15 +31,15 @@ class Group implements Syncable {
 			updated_at = Date.now();
 		if (sync) 
 			syncronized = false;
-		var keys:Array<Dynamic>=['name', 'updated_at', 'syncronized', 'removed'];
-		var vals:Array<Dynamic> = ['"${name}"', DBManager.timeFromDate(updated_at), syncronized?1:0, removed?1:0];
+		var keys:Array<Dynamic>=['name', 'created_at', 'syncronized'];
+		var vals:Array<Dynamic> = ['"${name}"', DBManager.timeFromDate(Date.now()), syncronized?1:0];
 		if (id!=null){
 			keys.push('id');
 			vals.push(id);
 		}
-		_dbm.context.request('INSERT OR REPLACE INTO ${tname} (${keys.join(",")}) VALUES(${vals.join(",")});');
+		request('INSERT OR REPLACE INTO ${tname} (${keys.join(",")}) VALUES(${vals.join(",")});');
 		if (id==null){
-			id = _dbm.context.request('select id from ${tname} order by id desc limit 1').getIntResult(0);
+			id = request('select id from ${tname} order by id desc limit 1').getIntResult(0);
 		}
 //		if (sync) {
 //			_dbm.sync.pushChanged(this);
@@ -52,18 +52,22 @@ class Group implements Syncable {
 			removed = true;
 			save();
 			
-			var ids = [for (o in _dbm.context.request('SELECT item_id FROM ${Item.tname}_${tname} where gid = ${id};').results()) o.item_id]; 
+/*			var ids = [for (o in request('SELECT item_id FROM ${Item.tname}_${tname} where gid = ${id};').results()) o.item_id]; 
 			trace(ids);
-			_dbm.context.request('DELETE FROM ${Item.tname}_${tname} where gid = ${id};'); //remove all connections to removed group
+			request('DELETE FROM ${Item.tname}_${tname} where gid = ${id};'); //remove all connections to removed group
 			//sync to server
 			for (i in Item.all('WHERE id in (${ids.join(",")})')){
 				i.save(); 
 			}
-			//_dbm.context.request('DELETE FROM ${tname} where id = ${id};');
-		}
+			//request('DELETE FROM ${tname} where id = ${id};');
+*/		}
 	}	
 	
-	//----
+	static function request(s:String):Dynamic{
+		return DBManager.instance.context.request(s);
+	}
+	
+	//----	
 	public function to_json():Dynamic{
 		return {
 			id: id, 
@@ -73,25 +77,21 @@ class Group implements Syncable {
 		};
 	}
 	
-	//---
-	static var _dbm:DBManager;
-	
-	public static function get(id:Int):Group{
-		return new Group(_dbm.context.request('select * from ${tname} where id = ${id} limit 1').results().first());
-	}
-	
-	public static function all(ext:String, fields:String = "*"):List<Group>{
-		return _dbm.context.request('select ${fields} from ${tname} ${ext};').results().map(function(o:Dynamic){
-			return new Group(o);
-		});
-	}
-	
 	public static var tname:String = 'groups';
-	public static function init(dbm:DBManager){
-		_dbm = dbm;
-	}
 	
 	public function toString(){
 		return text;
 	}
+
+	//---
+	public static function get(id:Int):Group{
+		return new Group(request('select * from ${tname} where id = ${id} limit 1').results().first());
+	}
+	
+	public static function all(ext:String="", fields:String = "*"):List<Group>{
+		return request('select ${fields} from ${tname} ${ext};').results().map(function(o:Dynamic){
+			return new Group(o);
+		});
+	}
+	
 }
