@@ -34,6 +34,9 @@ class EditDialog extends Dialog {
 		cast(findComponent("edate"), DropDown).value = i.date;
 		cast(findComponent("etext"), TextArea).text = i.text;
 		findComponent("ehour").value = i.date.getHours();
+//		for (b in Main._main.findComponent("current-year").findComponents(Button)){
+//			trace(b.classes);
+//		}
 		findComponent("eminute").value = i.date.getMinutes();
 		cast(findComponent("groupsb"), Button).onClick = function (e:Dynamic){
 			var ud = new GroupsDialog(i);
@@ -52,11 +55,14 @@ class EditDialog extends Dialog {
 		onDialogClosed = function(e:DialogEvent) {
 			if (e.button == DialogButton.SAVE){
 				var ed:EditDialog = cast e.target;
-				var date=cast(ed.findComponent("edate"), DropDown).value;
-				i.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), ed.findComponent("ehour").value, ed.findComponent("eminute").value, Date.now().getSeconds());
-				i.save();
-				i.text = ed.findComponent("etext").text;
-				saveCallback(i);
+				var text:String = ed.findComponent("etext").text;
+				if (text.length > 0){
+					var date=cast(ed.findComponent("edate"), DropDown).value;
+					i.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), ed.findComponent("ehour").value, ed.findComponent("eminute").value, Date.now().getSeconds());
+					i.save();
+					i.text = ed.findComponent("etext").text;
+					saveCallback(i);
+				}
 			}
 			if (e.button == DialogButton.CANCEL){
 				saveCallback(i);

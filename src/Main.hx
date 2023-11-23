@@ -32,6 +32,7 @@ import dialogs.*;
 class Main {
 	static var _daymemos:ListView;
 	static var _app:HaxeUIApp;
+//	static public var _main:Component;
 	static var _currentDate:Date = new Date(Date.now().getFullYear(), Date.now().getMonth(), Date.now().getDate(), 0, 0, 0);
 	
 	static var sort:String = "updated_at";
@@ -54,6 +55,7 @@ class Main {
 			//trace(Screen.instance.dpi);
 			trace(haxe.ui.Toolkit.scale);
             var mainView:Component = ComponentBuilder.fromFile("assets/main-view.xml");
+//			_main = mainView;
             _app.addComponent(mainView);
             _daymemos = cast(mainView.findComponent("daymemos"), ListView);
 			var calendarv:CalendarView = cast mainView.findComponent("calendar1");
@@ -96,9 +98,13 @@ class Main {
 */			};
 
 			calendarv.onChange = mchangef;
-			cast(calendarv.findComponent("prev-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),150); };
-			cast(calendarv.findComponent("next-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),150); };
-			cast(calendarv.findComponent("current-year"), Stepper).onChange = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),150); };
+			cast(calendarv.findComponent("prev-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),100); };
+			cast(calendarv.findComponent("next-month"), Button).onClick = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}),100); };
+			cast(calendarv.findComponent("current-year"), Stepper).onChange = function(e:Dynamic){ delay(mchangef.bind({target:calendarv}), 100); };
+			for (b in calendarv.findComponent("current-year").findComponents(Button)){
+				trace(b.cssName);
+				//var v:Component; v.
+			}
 			_daymemos.onChange = function(e:Dynamic){
 				var l:ListView = cast e.target;
 				var dialog = new EditDialog(l.selectedItem);

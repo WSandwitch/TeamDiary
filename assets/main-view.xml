@@ -39,6 +39,15 @@
 			horizontal-spacing: 0;
 		}
 		
+		.stepper-deinc{
+			width: 30px;
+			height: 20px;
+		}
+		.stepper-inc{
+			width: 30px;
+			height: 20px;
+		}
+		
 /*		*{border: 1px solid #ababab; }  
 /**/
 	</style>

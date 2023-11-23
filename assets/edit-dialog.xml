@@ -5,8 +5,8 @@
 
         <hbox width="100%">
 			<dropdown id="edate" text="Select Date" type="date" />
-			<number-stepper id="ehour" pos="12" step="1" min="0" max="24" />
-			<number-stepper id ="eminute" pos="0" step="1" min="0" max="59" />
+			<number-stepper id="ehour" pos="12" step="1" min="0" max="24"  width="100%"/>
+			<number-stepper id ="eminute" pos="0" step="1" min="0" max="59"  width="100%"/>
 		</hbox>
 		<hbox width="100%">
 			<label text="Group:" verticalAlign="center"/>
